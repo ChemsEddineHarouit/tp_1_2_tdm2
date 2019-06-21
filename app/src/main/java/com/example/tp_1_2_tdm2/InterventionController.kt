@@ -1,7 +1,7 @@
 package com.example.tp_1_2_tdm2
 
 import android.content.Context
-//import com.google.gson.Gson
+import com.google.gson.Gson
 import java.io.File
 import java.io.FileWriter
 import java.util.*
@@ -46,28 +46,32 @@ class InterventionController private constructor(){
     //we need context for the file Path
     fun save(context: Context) {
         val fileName = context.getFilesDir().getPath().toString() + dataBaseFileName
-//        val gson = Gson()
-//        val jsonInterventionList = gson.toJson(interventionList)
+        val gson = Gson()
+        val jsonInterventionList = gson.toJson(interventionList)
         val interventionsFile = FileWriter(fileName, false)
         interventionsFile.flush()
-//        interventionsFile.write(jsonInterventionList)
+        interventionsFile.write(jsonInterventionList)
         interventionsFile.close()
         println("----------------------------------saving--------------------------------------------------------------")
-//        println(jsonInterventionList)
+        println(jsonInterventionList)
     }
 
     //we need context for the file Path
     fun load(context: Context) {
         val fileName = context.getFilesDir().getPath().toString() + dataBaseFileName
-//        val gson = Gson()
+        val gson = Gson()
 
         val jsonInterventionList = File(fileName).readText()
-//        val interventionList = gson.fromJson(jsonInterventionList, Array<Intervention>::class.java).toMutableList()
+        val interventionList = gson.fromJson(jsonInterventionList, Array<Intervention>::class.java).toMutableList()
         println("----------------------------------loading--------------------------------------------------------------")
         println(interventionList)
         this.interventionList = interventionList as ArrayList<Intervention>
     }
 
+    fun delete(index: Int) {
+        interventionList.removeAt(index)
+
+    }
 
 
 }

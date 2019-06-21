@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,9 +22,14 @@ class InterventionAdapter(context : Context): RecyclerView.Adapter<InterventionA
 
     init {
         val controller = InterventionController.instance
-        controller.load(context)
-        interventionList = controller.interventionList
-        interventionAllList = interventionList
+        try {
+            controller.load(context)
+            interventionList = controller.interventionList
+            interventionAllList = interventionList
+        }
+        catch (e: FileNotFoundException){
+            Toast.makeText(context, "File not found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +45,11 @@ class InterventionAdapter(context : Context): RecyclerView.Adapter<InterventionA
         holder.date.text = "Ajouté le: ${dateFormat.format(intervention.date.time)}"
 
         holder.delete_btn.setOnClickListener {
+            val controller = InterventionController.instance
 
+            controller.delete(index)
+            notifyDataSetChanged()
+            controller.save(context)
         }
     }
 
