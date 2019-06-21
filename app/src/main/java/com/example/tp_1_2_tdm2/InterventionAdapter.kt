@@ -1,20 +1,29 @@
 package com.example.tp_1_2_tdm2
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class InterventionAdapter(): RecyclerView.Adapter<InterventionAdapter.ViewHolder>(){
+class InterventionAdapter(context : Context): RecyclerView.Adapter<InterventionAdapter.ViewHolder>(){
 
     var interventionList = ArrayList<Intervention>()
+    var  interventionAllList = ArrayList<Intervention>()
+    var interventionSearchList = ArrayList<Intervention>()
+    var context = context
+
 
     init {
         val controller = InterventionController.instance
+        controller.load(context)
         interventionList = controller.interventionList
+        interventionAllList = interventionList
     }
 
     override fun getItemCount(): Int {
@@ -46,6 +55,29 @@ class InterventionAdapter(): RecyclerView.Adapter<InterventionAdapter.ViewHolder
         val date = itemView.findViewById<TextView>(R.id.row_intervention_date)
         val type = itemView.findViewById<TextView>(R.id.row_intervention_type)
         val delete_btn = itemView.findViewById<Button>(R.id.delete_btn)
+    }
+
+    fun filter(mY:Int, mM:Int, mD:Int){
+        if (mY*mM*mD == 0) {
+            interventionSearchList = interventionAllList
+        } else {
+            val filteredList = ArrayList<Intervention>()
+            for (intervention in interventionAllList) {
+                val calendar = Calendar.getInstance()
+                var date = intervention.date
+                calendar.setTime(date)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val month = calendar.get(Calendar.MONTH)
+                val year = calendar.get(Calendar.YEAR)
+                if (day == mD && month == mM && year == mY) {
+                    filteredList.add(intervention)
+                }
+                println(intervention.date.day.toString() + " " + mD)
+            }
+            interventionSearchList = filteredList
+        }
+        interventionList = interventionSearchList
+        notifyDataSetChanged()
     }
 }
 
