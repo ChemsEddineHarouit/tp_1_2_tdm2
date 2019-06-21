@@ -4,10 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import java.text.SimpleDateFormat
 
 
@@ -31,6 +28,10 @@ class InterventionAdapter(): RecyclerView.Adapter<InterventionAdapter.ViewHolder
         holder.plombier.text = "Plombier : " +intervention.plombier.toString()
         val dateFormat = SimpleDateFormat("dd MMMM yyyy à hh:mm")
         holder.date.text = "Ajouté le: ${dateFormat.format(intervention.date.time)}"
+
+        holder.delete_btn.setOnClickListener {
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -44,6 +45,7 @@ class InterventionAdapter(): RecyclerView.Adapter<InterventionAdapter.ViewHolder
         val plombier = itemView.findViewById<TextView>(R.id.row_intervention_plombier)
         val date = itemView.findViewById<TextView>(R.id.row_intervention_date)
         val type = itemView.findViewById<TextView>(R.id.row_intervention_type)
+        val delete_btn = itemView.findViewById<Button>(R.id.delete_btn)
     }
 }
 
