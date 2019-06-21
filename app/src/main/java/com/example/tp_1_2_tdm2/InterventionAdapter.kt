@@ -28,8 +28,16 @@ class InterventionAdapter(context : Context): RecyclerView.Adapter<InterventionA
             interventionAllList = interventionList
         }
         catch (e: FileNotFoundException){
-            Toast.makeText(context, "File not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "DataFile not found", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun addIntervention(intervention: Intervention){
+        val controller = InterventionController.instance
+
+        controller.addIntervention(intervention)
+        notifyDataSetChanged()
+        controller.save(context)
     }
 
     override fun getItemCount(): Int {

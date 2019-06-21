@@ -44,8 +44,8 @@ class InterventionController private constructor(){
     }
 
     //we need context for the file Path
-    fun save(context: Context) {
-        val fileName = context.getFilesDir().getPath().toString() + dataBaseFileName
+    fun save(context: Context?) {
+        val fileName = context?.getFilesDir()?.getPath().toString() + dataBaseFileName
         val gson = Gson()
         val jsonInterventionList = gson.toJson(interventionList)
         val interventionsFile = FileWriter(fileName, false)

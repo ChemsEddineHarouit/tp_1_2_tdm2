@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".AddIntervention" android:orientation="vertical"
+              android:backgroundTint="@android:color/background_light"
+              android:background="@android:color/background_light">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="121dp"
+            android:text="@string/hello_blank_fragment" tools:text="Ajouter une intervention" android:textSize="24sp"
+            android:gravity="center_horizontal"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/interv_num" android:hint="Numero" android:layout_marginBottom="30dp"/>
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="61dp" android:id="@+id/interv_plumber" android:spinnerMode="dialog"
+            android:layout_marginBottom="30dp" android:entries="@array/plumbers"/>
+    <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="51dp" android:id="@+id/interv_type" android:layout_marginBottom="50dp"
+            android:entries="@array/types"/>
+    <Button
+            android:text="Valider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/interv_submit"/>
+
+</LinearLayout>

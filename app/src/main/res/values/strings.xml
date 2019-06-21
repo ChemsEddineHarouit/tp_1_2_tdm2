@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">tp_1_2_tdm2</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="plumbers">
+        <item>Said</item>
+        <item>Belkacem</item>
+        <item>Mestafa</item>
+        <item>Kamal</item>
+    </string-array>
+
+    <string-array name="types">
+        <item>Type 1</item>
+        <item>Type 2</item>
+        <item>Type 3</item>
+    </string-array>
 </resources>

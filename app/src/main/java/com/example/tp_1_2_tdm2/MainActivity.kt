@@ -1,27 +1,33 @@
 package com.example.tp_1_2_tdm2
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.CompoundButton
 import android.widget.LinearLayout
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.widget.Toast
-import android.R.id.toggle
 import android.app.DatePickerDialog
-import android.opengl.Visibility
+import android.net.Uri
+import android.support.v4.app.FragmentTransaction
 import android.view.View
-import kotlinx.android.synthetic.main.row_intervention.*
+import android.widget.Toast
+import com.example.tp_1_2_tdm2.AddIntervention.OnFragmentInteractionListener
 import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , OnFragmentInteractionListener {
 
+    override fun onFragmentInteraction(uri: Uri) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        interventionAdapter.notifyDataSetChanged()
+        Toast.makeText(this, "interaction", Toast.LENGTH_SHORT).show()
+    }
+
+
+    lateinit var add_interv_fragment : AddIntervention
     lateinit var interventionAdapter: InterventionAdapter
     val dateFilterShown = false
 
@@ -36,25 +42,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+//        add_interv_btn.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
         interventionsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         interventionAdapter = InterventionAdapter(this)
         interventionsRecyclerView.adapter = interventionAdapter
 
 
-        load_btn.setOnClickListener(){
-            val controller = InterventionController.instance
-            controller.load(this)
-        }
-
-        save_btn.setOnClickListener(){
-            val controller = InterventionController.instance
-            controller.save(this)
-            interventionAdapter.notifyDataSetChanged()
-        }
 
         date_filter.setOnClickListener(){
             val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, mY, mM, mD ->
@@ -72,6 +68,22 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(intent.getStringExtra("plumber") == null){
+            return
+        }
+
+        val plumber = intent.getStringExtra("plumber")
+        val type = intent.getStringExtra("type")
+        val num = intent.getIntExtra("num", interventionAdapter.itemCount)
+
+        val intervention = Intervention(num, plumber, type, Date())
+
+        interventionAdapter.addIntervention(intervention)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -80,5 +92,22 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun show_add_interv_form(view : View):Unit{
+//        add_interv_fragment = AddIntervention.newInstance()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.container, add_interv_fragment)
+//            .addToBackStack(add_interv_fragment.toString())
+//            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//            .commit()
+        val frag = AddIntervention.newInstance()
+        val manager = supportFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(R.id.main_container, frag)
+        .addToBackStack(frag.toString())
+        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction.commit()
     }
 }
